@@ -39,3 +39,18 @@ A few examples:
  squares_of_each = mapc(@(array) map(@(x) x**2, array), arrays);
  means = map(mean, arrays);
 ```
+
+
+## Reducing / folding
+
+What comes after mapping? Reducing! Or "fold," as it's called in some
+languages. Fold works by starting with an initial value, then applying a binary
+operator to combine successive values. So, for instance, these are equivalent:
+```matlab
+ array = 1:4;
+ S = sum(array);
+ S = fold(@(x, y) x + y, array);
+ S = (((1 + 2) + 3) + 4);
+```
+Of course, `fold` can take any function as its first argument. It can be called
+either with an array or with a cell array as its second argument.

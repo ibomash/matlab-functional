@@ -43,7 +43,7 @@ A few examples:
 
 ## Reducing / folding
 
-What comes after mapping? Reducing! Or "fold," as it's called in some
+What comes after mapping? Reducing! Or “fold,” as it’s called in some
 languages. Fold works by starting with an initial value, then applying a binary
 operator to combine successive values. So, for instance, these are equivalent:
 ```matlab
@@ -54,3 +54,38 @@ operator to combine successive values. So, for instance, these are equivalent:
 ```
 Of course, `fold` can take any function as its first argument. It can be called
 either with an array or with a cell array as its second argument.
+
+
+## Zipping
+
+Zipping is useful when working with mapping; it lets you take corresponding sets
+of arguments from several lists (where lists are cell arrays). For example:
+```matlab
+ zzip({1, 2, 3}, {4, 5, 6}) -> {{1, 4}, {2, 5}, {3, 6}}
+```
+There are two functions, which only differ by what happens when you pass in
+lists of different lengths. `zzip`’s result will be as long as the shortest
+input. `zzip_longest`’s result will be as long as the longest input, and any
+shorter inputs are padded with `nan`.
+
+
+## Functional if-then-else
+
+This allows you to express an if-then-else statement in one line:
+`socket_name = ifthen(~isempty(socket), socket.name, '')`. You can have more
+than one condition, in which case the result after the first passing condition
+is returned.
+
+
+## Binding variables in an expression
+
+What if you want to pick 5 random numbers between 1 and 20, without replacement?
+What if you want to do it in one line? MATLAB doesn’t let you index into the
+results of function calls! But `bindin` does. `bindin` takes a series of
+arguments, where the first one should evaluate to a value, and the remaining
+ones should be arguments of one function. The result of each argument to
+`bindin` is passed as the input to the next function. So, for example:
+```matlab
+ random_5 = bindin(randperm(20), @(x) x(1:5)); % Can’t just do randperm(20)(1:5)!
+```
+
